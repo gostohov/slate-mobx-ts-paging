@@ -1,25 +1,32 @@
 import * as React from 'react';
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import { Page } from './Page/Page';
+import { PageState } from './Page/Page.state';
 
 export interface IPage {
-  id: number
+  id: number,
+  state: PageState
 };
 
 export class PagelistState {
   @observable
-  pagelist: IPage[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
+  pagelist: IPage[] = [
+    { id: 1, state: new PageState() }, 
+    { id: 2, state: new PageState() }, 
+    { id: 3, state: new PageState() }
+  ];
 
   @action 
   addPage(prevIndex: number): void {
     const page = { 
-      id: this.pagelist.length + 1 
+      id: this.pagelist.length + 1,
+      state: new PageState()
     };
     this.pagelist.splice(prevIndex, 0, page);
   }
 
-  @action
-  getPageElementList(): JSX.Element[] {
-    return this.pagelist.map(({ id }) => <Page key={`page-${id}`}/>);
+  @computed
+  get pageElementList(): JSX.Element[] {
+    return this.pagelist.map(({ id, state }) => <Page key={`page-${id}`} state={state}/>);
   }
 }

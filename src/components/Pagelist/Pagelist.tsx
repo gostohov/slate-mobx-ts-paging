@@ -8,7 +8,7 @@ import { SidebarState } from '../Sidebar/Sidebar.state';
 export const Pagelist: React.FC<{ state: PagelistState, sidebarState: SidebarState }> = observer(({ state, sidebarState }) => {
   return (
     <div className={`page-list ${sidebarState.open ? '' : 'sidebar-closed'}`}>
-      {state.getPageElementList()}
+      {state.pageElementList}
     </div>
   )
 })
