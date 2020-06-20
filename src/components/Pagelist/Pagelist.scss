@@ -1,9 +1,14 @@
 .page-list {
   overflow-y: scroll;
   padding: 20px;
+  background: rgb(239, 239, 239);
 
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(21cm, 1fr));
+  
   &.sidebar-closed {
     border-right: 1px solid lightgrey;
     grid-column: 1 / 4;
+    margin-left: 40px;
   }
 }

@@ -1,10 +1,11 @@
 .sidebar-container {
-  border-right: 1px solid lightgrey;
-  overflow-y: scroll;
   display: flex;
   flex-flow: column;
-  justify-content: space-between;
   align-items: flex-end;
+  justify-content: space-between;
+  border-right: 1px solid lightgrey;
+  overflow-y: scroll;
+  background: #fff;
 
   &.closed {
     position: absolute;
@@ -18,12 +19,18 @@
 
   .toggle-btn {
     width: 100%;
-    border: unset;
-    text-align: right;
     height: 30px;
+    border: unset;
+    outline: unset;
+    cursor: pointer;
+    text-align: right;
 
     &.sidebar-closed {
       text-align: center;
+    }
+
+    &:hover {
+      background: rgb(231, 231, 231);
     }
   }
 }

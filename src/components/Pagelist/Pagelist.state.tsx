@@ -8,7 +8,7 @@ export interface IPage {
 
 export class PagelistState {
   @observable
-  pagelist: IPage[] = [{ id: 1 }];
+  pagelist: IPage[] = [{ id: 1 }, { id: 2 }, { id: 3 }];
 
   @action 
   addPage(prevIndex: number): void {
