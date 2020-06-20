@@ -1,0 +1,9 @@
+.page-list {
+  overflow-y: scroll;
+  padding: 20px;
+
+  &.sidebar-off {
+    border-right: 1px solid lightgrey;
+    grid-column: 1 / 4;
+  }
+}
