@@ -1,12 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { AppState } from './App.state';
+import { App } from './App';
+
+const appState = new AppState();
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <App state={appState}/>
   </React.StrictMode>,
   document.getElementById('root')
 );

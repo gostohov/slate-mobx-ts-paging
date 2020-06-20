@@ -1,21 +1,14 @@
 import * as React from 'react'
-import { Page } from './Page/Page';
+import { observer } from 'mobx-react';
+import { PagelistState } from './Pagelist.state';
+
 import './Pagelist.scss'
+import { SidebarState } from '../Sidebar/Sidebar.state';
 
-export const Pagelist = () => {
-  const list = () => {
-    return [{ id: 1}].map(el => {
-      const key = `page-${el.id}`;
-      const props = {
-        id: el.id
-      };
-      return <Page {...props} key={key}/>
-    })
-  }
-
+export const Pagelist: React.FC<{ state: PagelistState, sidebarState: SidebarState }> = observer(({ state, sidebarState }) => {
   return (
-    <div className="page-list">
-      {list()}
+    <div className={`page-list ${sidebarState.open ? '' : 'sidebar-closed'}`}>
+      {state.getPageElementList()}
     </div>
   )
-}
+})

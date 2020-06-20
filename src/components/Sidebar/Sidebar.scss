@@ -1,8 +1,29 @@
 .sidebar-container {
   border-right: 1px solid lightgrey;
   overflow-y: scroll;
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: flex-end;
+
+  &.closed {
+    position: absolute;
+    height: 100%;
+    top: -30px;
+  }
 
   .sidebar-list {
     padding: 20px;
+  }
+
+  .toggle-btn {
+    width: 100%;
+    border: unset;
+    text-align: right;
+    height: 30px;
+
+    &.sidebar-closed {
+      text-align: center;
+    }
   }
 }
