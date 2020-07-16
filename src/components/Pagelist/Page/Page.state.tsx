@@ -1,8 +1,7 @@
 import { observable, action, computed } from 'mobx';
-import { Observable, BehaviorSubject, of, Subject, merge, zip, forkJoin } from 'rxjs'
-import { distinctUntilChanged, map, mergeMap, tap, withLatestFrom, windowTime, concatMap, distinct, debounceTime, last } from 'rxjs/operators';
 import { ReactEditor } from 'slate-react';
-import { Editor, Node } from 'slate';
+import { threadId } from 'worker_threads';
+import { Node } from 'slate';
 
 export interface PageEvent {
   id: number;
@@ -51,28 +50,11 @@ export class PageState {
 
   @observable focus = false;
   @observable field = { top: '2cm', right: '2cm', bottom: '2cm', left: '2cm' };
+  @observable overflow = false;
+  @observable editor: ReactEditor | any = null;
+  @observable emptyPage = false;
+  @observable keyDownEvent: React.KeyboardEvent<HTMLDivElement> | any;
   
-  @observable editor$: Subject<ReactEditor> = new Subject<ReactEditor>();
-  @observable overflow$: Subject<boolean> = new Subject<boolean>();
-  @observable textExist$: Subject<boolean> = new Subject<boolean>();
-  @observable pageEvent$: Observable<any> = zip(
-    this.editor$,
-    this.overflow$.pipe(
-      windowTime(100),
-      concatMap(obs => obs.pipe(distinct())),
-    ),
-    this.textExist$.pipe(tap(console.log)),
-  ).pipe(
-    map(([editor, isOverflow, textExist]) => {
-      return { 
-        id: this.id, 
-        isOverflow,
-        editor,
-        textExist
-      };
-    })
-  );
-
   constructor(
     private props: { id: number }
   ) {
@@ -91,14 +73,10 @@ export class PageState {
 
   @action
   onKeyDown(event: React.KeyboardEvent<HTMLDivElement>, editor: ReactEditor): void {
-    const textExist = Node.string(editor) !== '';
-    console.log(textExist)
-    this.textExist$.next(textExist);
-    this.editor$.next(editor);
-    if (!textExist) {
-      this.overflow$.next(false);
-      return;
-    }
+    event.persist();
+    this.editor = editor;
+    this.emptyPage = Node.string(editor).length === 0;
+    this.keyDownEvent = event;
   }
 
   @computed

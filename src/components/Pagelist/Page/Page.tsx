@@ -32,7 +32,7 @@ export const Page: React.FC<{ state: PageState }> = observer(({ state }) => {
           skipOnMount
         >
           {({ height, targetRef }: { height: number, targetRef: any }) => {
-            state.overflow$.next(state.isOverflow(height))
+            state.overflow = state.isOverflow(height);
             return (
               <div ref={targetRef} className="slate-wrapper">
                 <Slate
